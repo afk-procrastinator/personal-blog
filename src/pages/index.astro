@@ -6,7 +6,7 @@ const posts = await getCollection('blog');
 const latestPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 3);
 ---
 
-<Layout title="Minimalist Blog">
+<Layout title="Spencer's Blog">
 	<h1 class = "welcome">Welcome!</h1>
 	<p class="intro">
 		I'm Spencer, just another guy who's interested in AI, society, and geopolitics. It's great to have you in my little corner of the internet. 

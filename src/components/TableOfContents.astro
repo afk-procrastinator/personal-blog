@@ -1,0 +1,88 @@
+---
+const { headings } = Astro.props;
+
+function buildToc(headings) {
+  const toc = [];
+  const parentHeadings = new Map();
+  
+  headings.forEach((h) => {
+    const heading = {
+      ...h,
+      subheadings: [],
+    };
+    
+    if (h.depth === 2) {
+      toc.push(heading);
+      parentHeadings.set(h.depth, heading);
+    } else if (h.depth === 3) {
+      parentHeadings.get(2)?.subheadings.push(heading);
+    }
+  });
+  
+  return toc;
+}
+
+const toc = buildToc(headings);
+---
+
+<nav class="toc">
+  <h2>Table of Contents</h2>
+  <ul>
+    {toc.map(heading => (
+      <li>
+        <a href={`#${heading.slug}`}>{heading.text}</a>
+        {heading.subheadings.length > 0 && (
+          <ul>
+            {heading.subheadings.map(subheading => (
+              <li>
+                <a href={`#${subheading.slug}`}>{subheading.text}</a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .toc {
+    background: var(--surface0);
+    padding: 1.5rem;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: -1000;
+  }
+  
+  .toc h2 {
+    font-size: 1.2rem;
+    margin: 0 0 1rem 0;
+  }
+  
+  .toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .toc ul ul {
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .toc li {
+    margin: 0.5rem 0;
+  }
+  
+  .toc a {
+    color: var(--subtext1);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-size: 0.9rem;
+  }
+  
+  .toc a:hover {
+    color: var(--text);
+  }
+</style>

@@ -1,0 +1,40 @@
+---
+title: "Shortcuts vs. Substitutes"
+description: "How AI is changing the way we learn and write"
+pubDate: 2025-01-16
+tags: ["AI", "education", "writing"]
+---
+
+## The Arendt Test
+When Chat-GPT first came on the scene two years ago, one of the first experiments I ran was feeding it a prompt I had recently written an essay for: *how do we handle crimes we can punish nor forgive?* With every new model that releases, I still use this personal benchmark. The professor (later my thesis advisor) was notorious for assigning criminally general and sweeping prompts, which we had to then convincingly address in four double-spaced pages. It’s not like our sources were all that limited, either — for that assignment, I had all of Hannah Arendt’s work to play with. 
+GPT-3’s answer was rubbish, thankfully. I had spent hours struggling over that essay, trying to disentangle Arendt’s highly specific terminology and legal philosophy. It’s unsurprising, then, I felt real pride when I handed in the final essay and got it back with a circled A on the last page. By the time I finished that course, I had an exhaustive knowledge of Arendt’s body of work and thought. But the real value was not the raw knowledge of what she thought about Adolf Eichmann or totalitarianism, but in the skill to turn something general into a concrete argument in less than 1,000 words. I only developed that skill through the iterative process of writing, editing, improving. 
+
+A year or so later, I recounted that same experience to my college’s board of trustees. Even then, I still hadn’t found an LLM capable of creating even a halfway-decent essay on that topic. But when I feed that same prompt into an LLM today, even without source material, it spits out a pretty good draft. If I give it my specific argument — even just the hastily-written skeleton — it provides a first run of my paper that’s better-written, better *thought out* than I could ever have achieved in a first attempt. 
+
+## Shortcuts vs. Substitutes
+
+This evolution in AI capabilities presents both opportunities and challenges for education. As I warned the board, that this is going to become increasingly common, especially since most professors assign far less open-ended assignments and students are often predisposed to finding substitutes for work. Students can, and will, take shortcuts. Indeed, I think students *should* find shortcuts — ways to make their learning and output more efficient. 
+
+I would define something as small as using Quizlet over traditional flash cards a shortcut. Only reading the abstract and not the entire paper is a shortcut. Using Zotero instead of manually writing citations is a shortcut. Not all shortcuts are bad, because they allow students to expand their horizons and skills. But shortcuts should *never* be a substitutes. 
+
+The key question we must ask ourselves when using these tools is: is this tool/technique/system simply making something I am already doing more efficient, or is it fully replacing me? I know how to spell and use proper grammar — but spellcheck lets me fix those errors as I go, letting me write and iterate faster. But the thoughts those words represent are still my own. If I ask an AI to write a paragraph about something or other for me, it’s not my thoughts, or my own work. 
+
+Sure, I’ve prompted the AI to write it, but the *process* of writing is what makes it valuable.  Writing is thinking. This isn't just a pithy phrase - when we write, we engage in a dynamic process of discovery. Ideas breed other ideas. Sentences spark unexpected connections. Arguments reveal their own weaknesses and strengths as they take shape on the page. Even as I write this blog post, new ideas have appeared in my mind that I didn’t have when I first started. Had I asked Claude to write me a blog post about education, writing, and AI, those new arguments and tangents would have never appeared, let alone reached the page (or screen, as the case may be). 
+
+Looking back on the Arendt assignment, I can trace the change in my thoughts and arguments across the nine drafts in the Scrivener project. While the final product was only 1,000 words, I had written almost 8,000 before — the large majority of which never appeared in the final draft. But those 8,000 words were more valuable to my education than the final 1,000 words by orders of magnitude. 
+
+## Process \> Speed
+
+When I started to write my senior thesis in mid-2023, LLMs had already progressed to a stage that I knew it could replace a lot of the grunt work I needed to do. In no small part, my thesis was on Thomas Hobbes. I had over 5,500 dense pages of source material across 11 volumes (admittedly, only 7 were relevant), plus centuries’ worth of secondary literature. No existing AI (today) can handle all that data. Sure, any LLM can give me a solid overview of *Leviathan* or *De Cive*, but what about *De Corpore*? Or his work on attempting to square the circle (which ultimately inspired my thesis’ title)? 
+
+Even though I had all 5,559 pages in a convenient PDF format (*ty archive.org*), I found myself spending hours manually checking the index, flipping through pages, and staining my fingers with the crumbly yellow cover. I did, of course, often use control-F to find relevant quotes and passages, but I discovered that the simple act of finding those passages via the index led to “accidental” discoveries. A word would catch my eye, I would open to the wrong page, just to discover it was exactly what I didn’t know I needed, a sentence would pop out from the wall of text. I lost count of how often this happened. 
+
+When it came time to write, these chance encounters became invaluable. Even months after first seeing it, I would remember that somewhere in the fourth volume Hobbes mentioned automata — and a simple PDF search would find it for me. But I wouldn’t have known that the passage existed unless I had done that manual work before if I hadn’t ignored the shortcuts I could have taken. 
+
+## Finding Balance
+
+The line between shortcuts and substitutes may seem blurry at first glance, but perhaps that's the wrong way to look at it. The real distinction lies not in the tools themselves, but in how they shape our intellectual journey. When I look back at my academic career – from wrestling with Arendt's dense philosophical concepts to manually combing through Hobbes' yellowing pages – what stands out isn't the final products, but the moments of discovery along the way. Those 7,000 "wasted" words while writing about unforgivable crimes, the accidental findings while searching for something else in Hobbes' volumes, the gradual crystallization of ideas through multiple drafts – these weren't inefficiencies to be optimized away, but the very essence of learning itself.
+
+As AI continues to evolve, we'll undoubtedly find new ways to make certain academic tasks more efficient. But we must remain mindful of what we might lose in the pursuit of speed and convenience. True education isn't just about absorbing information or producing polished essays – it's about developing the mental muscles that come from intellectual struggle. When I found that passage about automata in Hobbes months after first reading it, it wasn't just the passage itself that mattered, but the context and connections I had built around it through that seemingly inefficient process of manual research.
+
+The future of education in an AI-powered world doesn't have to be a choice between embracing technology and preserving traditional methods. Instead, it's about understanding when to use each tool in our expanding toolkit. The key isn't to avoid shortcuts entirely, but to recognize when the longer path – with all its detours, dead ends, and unexpected discoveries – is actually the most valuable route to take. After all, education isn't just about reaching the destination; it's about who we become along the way.

@@ -1,0 +1,77 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Layout title="Blog Posts">
+	<h1>Blog Posts</h1>
+	<div class="posts">
+		{sortedPosts.map(post => (
+			<article class="post-entry">
+				<h2>
+					<a href={`/blog/${post.slug}`}>{post.data.title}</a>
+				</h2>
+				<time datetime={post.data.pubDate.toISOString()}>
+					{post.data.pubDate.toLocaleDateString('en-US', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric'
+					})}
+				</time>
+				<p>{post.data.description}</p>
+				{post.data.tags && (
+					<div class="tags">
+						{post.data.tags.map(tag => (
+							<span class="tag">{tag}</span>
+						))}
+					</div>
+				)}
+			</article>
+		))}
+	</div>
+</Layout>
+
+<style>
+	.posts {
+		display: grid;
+		gap: 2rem;
+		margin-top: 2rem;
+	}
+	.post-entry {
+		padding: 1.5rem;
+		background: var(--surface0);
+		border-radius: 8px;
+	}
+	.post-entry h2 {
+		margin: 0;
+	}
+	.post-entry h2 a {
+		color: var(--text);
+		text-decoration: none;
+	}
+	.post-entry h2 a:hover {
+		color: var(--mauve);
+	}
+	time {
+		display: block;
+		color: var(--subtext0);
+		font-size: 0.9rem;
+		margin: 0.5rem 0;
+	}
+	.tags {
+		margin-top: 1rem;
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+	.tag {
+		background: var(--surface1);
+		color: var(--text);
+		padding: 0.2rem 0.8rem;
+		border-radius: 999px;
+		font-size: 0.8rem;
+	}
+</style>

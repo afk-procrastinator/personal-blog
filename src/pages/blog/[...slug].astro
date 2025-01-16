@@ -1,0 +1,420 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+import readingTime from 'reading-time';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map(post => ({
+		params: { slug: post.slug },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await post.render();
+const readingStats = readingTime(post.body);
+
+// Get related posts based on tags
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+  .filter(p => p.slug !== post.slug && p.data.tags?.some(tag => post.data.tags?.includes(tag)))
+  .slice(0, 3);
+---
+
+<Layout title={post.data.title}>
+	<div class="post-layout">
+		<article class="blog-post">
+			<header>
+				<a href="/blog" class="back-link">← Back to posts</a>
+				<h1>{post.data.title}</h1>
+				<div class="post-meta">
+					<time datetime={post.data.pubDate.toISOString()}>
+						{post.data.pubDate.toLocaleDateString('en-US', {
+							year: 'numeric',
+							month: 'long',
+							day: 'numeric'
+						})}
+					</time>
+					<span class="reading-time">{readingStats.text}</span>
+					{post.data.tags && (
+						<div class="tags">
+							{post.data.tags.map(tag => (
+								<span class="tag">{tag}</span>
+							))}
+						</div>
+					)}
+				</div>
+				<p class="description">{post.data.description}</p>
+			</header>
+			<div class="content">
+				<Content />
+			</div>
+			{relatedPosts.length > 0 && (
+				<aside class="related-posts">
+					<h2>Related Posts</h2>
+					<div class="related-posts-grid">
+						{relatedPosts.map(relatedPost => (
+							<a href={`/blog/${relatedPost.slug}`} class="related-post">
+								<h3>{relatedPost.data.title}</h3>
+								<p>{relatedPost.data.description}</p>
+							</a>
+						))}
+					</div>
+				</aside>
+			)}
+		</article>
+		<aside class="sidebar">
+			<TableOfContents headings={headings} />
+		</aside>
+	</div>
+</Layout>
+
+<script>
+	// Process footnotes after the page loads
+	document.addEventListener('DOMContentLoaded', () => {
+		const footnotes = document.querySelectorAll('.footnotes li');
+		const footnoteRefs = document.querySelectorAll('a.footnote-reference');
+
+		footnotes.forEach((footnote) => {
+			const id = footnote.id;
+			const content = footnote.textContent.trim();
+			const ref = document.querySelector(`a[href="#${id}"]`);
+			if (ref) {
+				ref.setAttribute('data-footnote', content);
+			}
+		});
+	});
+</script>
+
+<style>
+	.post-layout {
+		position: relative;
+		max-width: 1000px;
+		margin: 0 auto;
+		padding: 0 1rem;
+	}
+	.blog-post {
+		margin: 0;
+		padding-right: 0; /* Space for sidebar */
+	}
+	.sidebar {
+		position: absolute;
+		top: 2rem;
+		right: 1rem;
+		width: 280px;
+	}
+	header {
+		margin-bottom: 3rem;
+		padding-right: 300px; /* Space for sidebar */
+	}
+	.back-link {
+		display: inline-block;
+		margin-bottom: 2rem;
+		color: var(--subtext1);
+		font-weight: 500;
+		transition: color 0.2s;
+	}
+	.back-link:hover {
+		color: var(--text);
+	}
+	.post-meta {
+		margin: 1rem 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		align-items: center;
+	}
+	time, .reading-time {
+		color: var(--subtext0);
+		font-size: 0.9rem;
+		font-weight: 500;
+	}
+	.description {
+		font-size: 1.1rem;
+		color: var(--subtext1);
+		line-height: 1.6;
+		margin: 1.5rem 0;
+		padding-left: 1rem;
+		border-left: 2px solid var(--mauve);
+	}
+	.tags {
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+	.tag {
+		background: var(--surface0);
+		color: var(--text);
+		padding: 0.2rem 0.8rem;
+		border-radius: 999px;
+		font-size: 0.8rem;
+		font-weight: 500;
+		transition: transform 0.2s;
+	}
+	.tag:hover {
+		transform: translateY(-1px);
+	}
+	.content {
+		line-height: 1.8;
+		font-size: 1.1rem;
+	}
+
+	/* Style links */
+	.content :global(a) {
+		color: var(--mauve);
+		text-decoration: none;
+		border-bottom: 1px solid transparent;
+		transition: border-color 0.2s, color 0.2s;
+	}
+
+	.content :global(a:hover) {
+		color: var(--pink);
+		border-bottom-color: var(--pink);
+	}
+
+	/* Style footnotes */
+	.content :global(.footnote-reference) {
+		font-size: 0.8em;
+		vertical-align: super;
+		margin: 0 0.2em;
+		color: var(--blue);
+		border-bottom: none;
+		text-decoration: none;
+		cursor: help;
+	}
+
+	.content :global(.footnote-reference:hover) {
+		color: var(--sapphire);
+	}
+
+	/* Style footnote section */
+	.content :global(.footnotes) {
+		margin-top: 3rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--surface0);
+		font-size: 0.9rem;
+		color: var(--subtext1);
+	}
+
+	/* Hide actual footnotes when showing tooltip */
+	.content :global(.footnotes) {
+		counter-reset: footnote;
+	}
+
+	/* Create tooltip from footnote content */
+	.content :global(.footnote-reference) {
+		position: relative;
+	}
+
+	.content :global(.footnote-reference:hover::before) {
+		content: attr(data-footnote);
+		position: absolute;
+		bottom: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+		padding: 0.5rem 1rem;
+		background: var(--surface0);
+		color: var(--text);
+		border-radius: 0.25rem;
+		font-size: 0.8rem;
+		width: max-content;
+		max-width: 300px;
+		white-space: normal;
+		z-index: 1000;
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+		opacity: 0;
+		pointer-events: none;
+		animation: fadeIn 0.2s ease-in-out forwards;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translate(-50%, 0.5rem);
+		}
+		to {
+			opacity: 1;
+			transform: translate(-50%, -0.5rem);
+		}
+	}
+
+	.content :global(img) {
+		max-width: 25rem;
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+		border-radius: 0.5rem;
+		margin: 1rem auto;
+		display: block;
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+	}
+	.content :global(h2) {
+		margin-top: 2.5rem;
+		margin-bottom: 1rem;
+		font-size: 1.75rem;
+		scroll-margin-top: 100px;
+	}
+	.content :global(p) {
+		margin: 1.5rem 0;
+		text-indent: 2rem; /* First line indent */
+	}
+	.content :global(ul) {
+		margin: 1.5rem 0;
+		padding-left: 1.5rem;
+	}
+	.content :global(li) {
+		margin: 0.5rem 0;
+	}
+
+	/* Blockquote styling */
+	.content :global(blockquote) {
+		margin: 2rem 0;
+		padding: 1.5rem 2rem;
+		border-left: 4px solid var(--mauve);
+		background: var(--surface0);
+		border-radius: 0 8px 8px 0;
+		color: var(--subtext0);
+		position: relative;
+	}
+
+	.content :global(blockquote p) {
+		margin: 0.5rem 0;
+		text-indent: 0;
+	}
+
+	.content :global(blockquote cite) {
+		display: block;
+		margin-top: 1rem;
+		font-size: 0.9rem;
+		color: var(--subtext1);
+		font-style: normal;
+	}
+
+	/* Code block styling */
+	.content :global(pre) {
+		background: var(--mantle);
+		padding: 1.5rem;
+		border-radius: 8px;
+		overflow-x: auto;
+		margin: 1.5rem 0;
+		font-size: 0.95rem;
+		line-height: 1.5;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+
+	.content :global(code) {
+		font-family: 'JetBrains Mono', 'Fira Code', monospace;
+	}
+
+	.content :global(:not(pre) > code) {
+		background: var(--surface0);
+		color: var(--mauve);
+		padding: 0.2rem 0.4rem;
+		border-radius: 4px;
+		font-size: 0.9em;
+		white-space: nowrap;
+	}
+
+	/* Table styling */
+	.content :global(table) {
+		width: 100%;
+		margin: 2rem 0;
+		border-collapse: collapse;
+		font-size: 0.95rem;
+		line-height: 1.5;
+	}
+
+	.content :global(th) {
+		background: var(--surface0);
+		color: var(--text);
+		font-weight: 600;
+		text-align: left;
+		padding: 0.75rem;
+		border-bottom: 2px solid var(--surface1);
+	}
+
+	.content :global(td) {
+		padding: 0.75rem;
+		border-bottom: 1px solid var(--surface0);
+		color: var(--subtext0);
+	}
+
+	.content :global(tr:hover td) {
+		background: var(--surface0);
+	}
+
+	/* Make tables responsive */
+	@media (max-width: 768px) {
+		.content :global(table) {
+			display: block;
+			overflow-x: auto;
+			-webkit-overflow-scrolling: touch;
+		}
+	}
+
+	.related-posts {
+		margin-top: 4rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--surface0);
+	}
+	.related-posts h2 {
+		margin-bottom: 1.5rem;
+	}
+	.related-posts-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 1.5rem;
+	}
+	.related-post {
+		background: var(--surface0);
+		padding: 1.5rem;
+		border-radius: 8px;
+		transition: transform 0.2s;
+		text-decoration: none;
+	}
+	.related-post:hover {
+		transform: translateY(-2px);
+	}
+	.related-post h3 {
+		margin: 0;
+		font-size: 1.1rem;
+		color: var(--text);
+	}
+	.related-post p {
+		margin: 0.5rem 0 0 0;
+		font-size: 0.9rem;
+		color: var(--subtext1);
+	}
+	.post-footer {
+		margin-top: 4rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--surface0);
+	}
+	@media (max-width: 1200px) {
+		.sidebar {
+			margin-left: calc(83.33% - 250px);
+		}
+	}
+	@media (max-width: 1024px) {
+		.blog-post {
+			padding-right: 0;
+			max-width: 650px;
+			margin: 2rem auto;
+		}
+		.sidebar {
+			display: none;
+		}
+	}
+	@media (max-width: 768px) {
+		.post-meta {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.5rem;
+		}
+		.related-posts-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

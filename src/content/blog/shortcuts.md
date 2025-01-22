@@ -1,6 +1,6 @@
 ---
 title: "Shortcuts vs. Substitutes"
-description: "How AI is changing the way we learn and write"
+description: "How AI is changing the way we learn and write — and why it isn't all bad."
 pubDate: 2025-01-16
 tags: ["AI", "education", "writing"]
 ---
